@@ -1,0 +1,32 @@
+version: '3.7'
+services:
+  app:
+    container_name: 'catalyst_app'
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+      - "5173:5173"
+    depends_on:
+      - db
+    networks:
+      - app
+    volumes:
+      - ./platform:/var/www/html
+  db:
+    image: mysql:5.7
+    container_name: 'app_db'
+    environment:
+      MYSQL_ROOT_PASSWORD: peter
+      MYSQL_DATABASE: catalyst
+      MYSQL_USER: peter
+      MYSQL_PASSWORD: peter
+    ports:
+      - "3306:3306"
+    networks:
+      app:
+
+networks:
+  app:
+    driver: bridge
