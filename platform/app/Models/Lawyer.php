@@ -9,8 +9,4 @@ class Lawyer extends Model
 {
     use HasFactory;
 
-    public function lawyer()
-    {
-        return $this->belongsTo(Lawyer::class);
-    }
 }

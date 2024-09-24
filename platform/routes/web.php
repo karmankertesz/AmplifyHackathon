@@ -38,7 +38,8 @@ Route::middleware('auth')->group(function () {
 
 
     Route::get('/matters',[MatterController::class,'index'])->name('matters.index');
- 
+    Route::get('/matters/matcher',[MatterController::class,'matcher'])->name('matters.matcher');
+  
     Route::get('/lawyers',[LawyerController::class,'index'])->name('lawyers.index');
 });
 

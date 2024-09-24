@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 use App\Models\Matter;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -17,6 +15,12 @@ class MatterController extends Controller
         return Inertia::render('Matters/Index', [
             'matters' => Matter::all()
         ]);
+    }
+
+
+    public function matcher()
+    {
+        return Inertia::render('Matters/Matcher');
     }
 
 }
