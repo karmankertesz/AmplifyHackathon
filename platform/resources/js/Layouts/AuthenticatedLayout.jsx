@@ -24,6 +24,12 @@ export default function Authenticated({ user, header, children }) {
                                 <NavLink href={route('dashboard')} active={route().current('dashboard')}>
                                     Dashboard
                                 </NavLink>
+                                <NavLink href={route('matters.index')} active={route().current('matters.index')}>
+                                    Matters
+                                </NavLink>
+                                <NavLink href={route('lawyers.index')} active={route().current('lawyers.index')}>
+                                    Lawyers
+                                </NavLink>
                             </div>
                         </div>
 
@@ -119,7 +125,13 @@ export default function Authenticated({ user, header, children }) {
                 </header>
             )}
 
-            <main>{children}</main>
+            <main>
+                <div className="py-12">
+                    <div className='max-w-8xl mx-auto sm:px-6 lg:px-8 '>
+                        {children}
+                    </div>
+                </div>
+            </main>
         </div>
     );
 }
