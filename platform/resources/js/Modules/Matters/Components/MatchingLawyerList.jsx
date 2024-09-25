@@ -14,8 +14,8 @@ export default function MatchingLawyerList({ lawyers = [], firstLoad = true, law
     }, [lawyers])
 
     return (
-        <div className='overflow-y-auto w-[40%] max-h-[45rem] mt-10'>
-            <div className="h-full px-10">
+        <div className='overflow-y-auto w-[33%] max-h-[45rem] mt-10'>
+            <div className="h-full">
                 {
                     lawyers.length == 0 && !firstLoad ?
                         <div className="flex mt-10 bg-white p-5 justify-center items-center h-full">

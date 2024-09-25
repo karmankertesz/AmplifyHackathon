@@ -7,7 +7,6 @@ import MatterModalItem from "./MatterModalItem";
 export default function MatchingMatterItem({ matter }) {
 
     const [showMatterModal, setShowMatterModal] = useState(false);
-    const [selectedTab, setSelectedTab] = useState('general');
     return <>
         <div className="bg-white p-3  overflow-hidden shadow-sm sm:rounded-lg cursor-pointer mt-4" onClick={() => setShowMatterModal(true)}>
             <div className="font-extrabold text-lg">{matter.title}</div>
@@ -23,7 +22,6 @@ export default function MatchingMatterItem({ matter }) {
         </div>
         <Modal show={showMatterModal} onClose={() => setShowMatterModal(false)}>
            <MatterModalItem matter={matter}/>
-
         </Modal>
     </>
 }

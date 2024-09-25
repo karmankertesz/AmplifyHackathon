@@ -11,6 +11,15 @@ export default function LawyerItem({ lawyer }) {
                 <MatchingLawyerItem lawyer={lawyer} extraInfo={true}/>
             </div>
             <div className="mt-10">
+                <div className="border-b-2 pb-2">
+                    <span className="text-gray-700 text-sm uppercase ">Summary</span>
+                    <span className="ml-2 text-xs">(Generated based on the matched cases)</span>
+                </div>
+                <div className="text-sm mt-3 px-2">
+                    {lawyer.summary}
+                </div>
+            </div>
+            <div className="mt-10">
                 <div className="text-gray-700 text-sm uppercase border-b-2 pb-3">Matters</div>
                 <MatchingMattersList matters={lawyer.matters} />
             </div>
