@@ -2,9 +2,6 @@
 
 namespace App\Services;
 
-use Exception;
-use GuzzleHttp\Client;
-use Illuminate\Support\Facades\Log;
 
 class CosineSimillarityService{
 

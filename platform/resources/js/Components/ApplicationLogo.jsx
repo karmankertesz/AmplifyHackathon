@@ -1,6 +1,7 @@
 export default function ApplicationLogo(props) {
+    const height = props.height || '50';
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" width="221" height="50" viewBox="0 0 221 60" fill="none">
+        <svg xmlns="http://www.w3.org/2000/svg" width="221" height={`${height}`} viewBox="0 0 221 60" fill="none">
             <rect x="0.5" y="0.5" width="56" height="59" rx="5.5" fill="url(#paint0_linear_101_106)" stroke="black"/>
             <g clip-path="url(#clip0_101_106)">
                 <path d="M36.9702 19.4965H32.6348L32.634 18.3461H36.9702V19.4965Z" fill="#4EB79B"/>

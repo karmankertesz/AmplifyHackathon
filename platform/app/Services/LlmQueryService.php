@@ -34,7 +34,7 @@ class LlmQueryService
                 ["role" => "system", "content" => "remove the word json , just keep the object to i can json_decode the string"],
                 [
                     "role" => "user",
-                    "content" => $brief
+                    "content" => $brief ?? "none"
                 ]
             ],
             'temperature' => 0.7,
@@ -54,7 +54,7 @@ class LlmQueryService
     {
         $payload = [
             'model' => 'text-embedding-3-small',
-            'input'=>$attributeString
+            'input'=> $attributeString
         ];
         try{
             $response = $this->client->post('overseas-text-embedding-3-small/embeddings?api-version=2023-05-15', [
