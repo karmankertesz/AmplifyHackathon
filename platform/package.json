@@ -21,6 +21,6 @@
     },
     "dependencies": {
         "lucide-react": "^0.445.0",
-        "react-data-table-component": "^7.6.2",
+        "react-data-table-component": "^7.6.2"
     }
 }

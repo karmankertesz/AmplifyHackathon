@@ -38,7 +38,7 @@ class GenerateMatterEmbeddings extends Command
             foreach ($matters as $matter) {
                 try {
                     $attributes = $matter->getContextAttributes();
-                    $response = $client->post('http://python_app:5000/generate-vector', [
+                    $response = $client->post('http://python_local:5000/generate-vector', [
                         'json' => ['payload' => json_encode($attributes)]
                     ]);
                     $contextEmbeddings = trim(json_encode(json_decode($response->getBody())));
@@ -52,7 +52,7 @@ class GenerateMatterEmbeddings extends Command
                         $key = $key === 'location' ? 'living_in' : $key;
                         $attributes['lawyer_' . $key] = $value;
                     }
-                    $response = $client->post('http://python_app:5000/generate-vector', [
+                    $response = $client->post('http://python_local:5000/generate-vector', [
                         'json' => ['payload' => json_encode($attributes)]
                     ]);
                     $lawyerEmbeddings = trim(json_encode(json_decode($response->getBody())));

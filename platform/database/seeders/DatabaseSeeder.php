@@ -14,8 +14,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        DB::table('matter_embeddings')->delete();
         DB::table('matters')->delete();
         DB::table('lawyers')->delete();
+        DB::table('users')->delete();
 
         DB::table('users')
         ->insert([
