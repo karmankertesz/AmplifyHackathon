@@ -5,7 +5,7 @@ import MatterStats from '@/Modules/Dashboard/Components/MatterStats';
 import TimeLine from '@/Modules/Dashboard/Components/Timeline';
 import { Head } from '@inertiajs/react';
 
-export default function Dashboard({ auth }) {
+export default function Dashboard({ auth, mattersCount, lawyersCount, mattersStats }) {
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -13,12 +13,17 @@ export default function Dashboard({ auth }) {
         >
             <Head title='Dashboard'/>
             <div className='py-10'>
-                <BaseStats />
+                <BaseStats
+                    mattersCount={mattersCount}
+                    lawyersCount={lawyersCount}
+                />
                 <div className='flex justify-between mt-20'>
                     <div className='w-[65%]'>
-                        <MatterStats className="w-[45%]" />
+                        <MatterStats
+                            mattersStats={mattersStats}
+                        />
                         <div className='mt-10 flex'>
-                            <LawyerStats className="mt-10" />
+                            <LawyerStats />
                         </div>
                     </div>
                     <div>
