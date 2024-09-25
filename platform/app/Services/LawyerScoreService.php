@@ -2,6 +2,13 @@
 
 namespace App\Services;
 
+use App\Models\Lawyer;
+use App\Models\Matter;
+use Exception;
+use GuzzleHttp\Client;
+use Illuminate\Support\Facades\DB;
+use LLPhant\Chat\OllamaChat;
+use LLPhant\OllamaConfig;
 
 class LawyerScoreService
 {

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Lawyer;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -13,7 +14,6 @@ class LawyerSeeder extends Seeder
      */
     public function run(): void
     {
-        
         $lawyers = [
             ['id' => 1, 'name' => 'Harvey Specter', 'location' => 'Chicago', 'service' => 'Tax Policy', 'type_of_law' => 'Tax law', 'total_cases' => 300, 'winning_rate' => 0.95],
             ['id' => 2, 'name' => 'Mike Ross', 'location' => 'New York', 'service' => 'Real Estate Finance', 'type_of_law' => 'Real Estate law', 'total_cases' => 150, 'winning_rate' => 0.88],

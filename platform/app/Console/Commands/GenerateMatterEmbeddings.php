@@ -4,8 +4,10 @@ namespace App\Console\Commands;
 
 use App\Models\Lawyer;
 use App\Models\Matter;
+use App\Services\LlmQueryService;
 use Illuminate\Console\Command;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 
 class GenerateMatterEmbeddings extends Command

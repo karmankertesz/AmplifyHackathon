@@ -10,6 +10,8 @@ class Matter extends Model
 {
     use HasFactory;
 
+
+
     public function getContextAttributes()
     {
         $attributes = $this->getAttributes();
@@ -22,8 +24,6 @@ class Matter extends Model
             'budget'
         ]);
     }
-
-
 
     public function lawyer()
     {

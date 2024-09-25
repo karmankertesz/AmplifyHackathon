@@ -8,7 +8,7 @@ WORKDIR /usr/src/app
 COPY . .
 
 # Install any needed packages specified in requirements.txt
-RUN pip install flask sentence_transformers openai
+RUN pip install flask sentence_transformers
 
 # Make port 80 available to the world outside this container
 EXPOSE 5000

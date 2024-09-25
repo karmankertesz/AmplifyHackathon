@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Redirect;
 
 class MatterController extends Controller
 {
+
     private $matcherService;
 
     public function __construct(MatcherService $matcherService)
@@ -41,8 +42,5 @@ class MatterController extends Controller
             ],
         ]);
     }
-
+    //
 }
-
-
-

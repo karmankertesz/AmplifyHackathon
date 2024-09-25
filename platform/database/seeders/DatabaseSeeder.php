@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Lawyer;
 use Illuminate\Support\Facades\DB;
 
 
@@ -17,7 +18,6 @@ class DatabaseSeeder extends Seeder
         DB::table('matter_embeddings')->delete();
         DB::table('matters')->delete();
         DB::table('lawyers')->delete();
-        DB::table('users')->delete();
 
         DB::table('users')
         ->insert([

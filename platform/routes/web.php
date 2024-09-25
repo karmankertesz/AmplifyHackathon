@@ -1,10 +1,10 @@
 <?php
 
+use App\Http\Controllers\LawyerController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\MatterController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\MatterController;
-use App\Http\Controllers\LawyerController;
 use Inertia\Inertia;
 
 /*
@@ -37,10 +37,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
 
-    Route::get('/matters',[MatterController::class,'index'])->name('matters.index');
-    Route::get('/matters/matcher',[MatterController::class,'matcher'])->name('matters.matcher');
-  
-    Route::get('/lawyers',[LawyerController::class,'index'])->name('lawyers.index');
+   Route::get('/matters',[MatterController::class,'index'])->name('matters.index');
+   Route::get('/matters/matcher',[MatterController::class,'matcher'])->name('matters.matcher');
+   Route::post('/matters/getMatchingMatters',[MatterController::class,'getMatchingMatters'])->name('matters.getMatchingMatters');
+   Route::post('/matters/getMatchingLawyers',[MatterController::class,'getMatchingLawyers'])->name('matters.getMatchingLawyers');
+
+
+   Route::get('/lawyers',[LawyerController::class,'index'])->name('lawyers.index');
 });
 
 require __DIR__.'/auth.php';
