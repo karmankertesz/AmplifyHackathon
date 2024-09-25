@@ -27,6 +27,7 @@ export default function LawyerIndex({ auth, lawyers }) {
         }
     ];
 
+    console.log(lawyers);
     return (
         <AuthenticatedLayout
             user={auth.user}

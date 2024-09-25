@@ -13,7 +13,7 @@ use LLPhant\OllamaConfig;
 class LawyerScoreService
 {
     const WINNING_RATE_WEIGHT = 1.0;
-    const SEMANTIC_SCORE_WEIGHT = 3.0;
+    const SEMANTIC_SCORE_WEIGHT = 2.0;
 
 
     public function getScore($lawyer, $matters)
@@ -36,7 +36,7 @@ class LawyerScoreService
         $rawScore = $weightedSemanticScore + $weightedWinningRate + $averageInFavour;
 
         $maxPossibleScore = 10;
-        $minPossibleScore = 1; 
+        $minPossibleScore = 1;
 
         $normalizedScore = 1 + (($rawScore - $minPossibleScore) * (9 / ($maxPossibleScore - $minPossibleScore)));
         $finalScore = round(max(1, min(10, $normalizedScore)));

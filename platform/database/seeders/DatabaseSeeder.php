@@ -15,20 +15,21 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('matter_embeddings')->delete();
-        DB::table('matters')->delete();
-        DB::table('lawyers')->delete();
-
-        DB::table('users')
-        ->insert([
-            'email'=>'peter@gmail.com',
-            'password'=> bcrypt('password'),
-            'name'=>'Peter Braganza'
-        ]);
+//        DB::table('matter_embeddings')->delete();
+//        DB::table('matters')->delete();
+//        DB::table('lawyers')->delete();
+//
+//        DB::table('users')
+//        ->insert([
+//            'email'=>'peter@gmail.com',
+//            'password'=> bcrypt('password'),
+//            'name'=>'Peter Braganza'
+//        ]);
 
         $this->call([
-            LawyerSeeder::class,
-            MatterSeeder::class
+            //LawyerSeeder::class,
+            //MatterSeeder::class,
+            BriefDescriptionSeeder::class
         ]);
     }
 }

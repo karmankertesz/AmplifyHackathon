@@ -19,7 +19,6 @@ class Matter extends Model
             'title',
             'service',
             'description',
-            'type_of_law',
             'industry',
             'budget'
         ]);

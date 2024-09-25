@@ -34,17 +34,17 @@ class GenerateMatterEmbeddings extends Command
         $client = new Client();
         DB::table('matter_embeddings')->delete();
 
-
+        $llmQueryService = App::make(LlmQueryService::class);
         // Make a POST request to the Python API
-        Matter::chunk(30, function ($matters) use ($client) {
+        Matter::chunk(30, function ($matters) use ($client,$llmQueryService) {
             foreach ($matters as $matter) {
                 try {
                     $attributes = $matter->getContextAttributes();
-                    $response = $client->post('http://python_local:5000/generate-vector', [
-                        'json' => ['payload' => json_encode($attributes)]
-                    ]);
-                    $contextEmbeddings = trim(json_encode(json_decode($response->getBody())));
-
+                    // $response = $client->post('http://python_app:5000/generate-vector', [
+                    //     'json' => ['payload' => json_encode($attributes)]
+                    // ]);
+                    // $contextEmbeddings = trim(json_encode(json_decode($response->getBody())));
+                    $contextEmbeddings = $llmQueryService->generateEmbeddings(json_encode($attributes));
                     $attributes = [
                         'lawyer_budget'=>$matter->budget
                     ];
@@ -54,15 +54,16 @@ class GenerateMatterEmbeddings extends Command
                         $key = $key === 'location' ? 'living_in' : $key;
                         $attributes['lawyer_' . $key] = $value;
                     }
-                    $response = $client->post('http://python_local:5000/generate-vector', [
-                        'json' => ['payload' => json_encode($attributes)]
-                    ]);
-                    $lawyerEmbeddings = trim(json_encode(json_decode($response->getBody())));
+                    // $response = $client->post('http://python_app:5000/generate-vector', [
+                    //     'json' => ['payload' => json_encode($attributes)]
+                    // ]);
+                    // $lawyerEmbeddings = trim(json_encode(json_decode($response->getBody())));
+                    $lawyerEmbeddings = $llmQueryService->generateEmbeddings(json_encode($attributes));
 
                     DB::table('matter_embeddings')->insert([
                         'matter_id' => $matter->id,
-                        'context_embedding' => $contextEmbeddings,
-                        'lawyer_embedding'=> $lawyerEmbeddings
+                        'context_embedding' => json_encode($contextEmbeddings),
+                        'lawyer_embedding'=> json_encode($lawyerEmbeddings)
                     ]);
                 } catch (\Exception $e) {
                     // Handle exceptions

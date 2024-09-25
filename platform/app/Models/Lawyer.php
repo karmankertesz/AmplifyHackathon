@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Lawyer extends Model
 {
     use HasFactory;
+
+    public $timestamps = false;
+
+    public function matters()
+    {
+        return $this->hasMany(Matter::class);
+    }
 }

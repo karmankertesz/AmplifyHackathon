@@ -6,6 +6,7 @@ use App\Models\Lawyer;
 use App\Models\Matter;
 use Exception;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -25,19 +26,21 @@ class MatcherService
     public function getMatchingMattersGroupedByLawyer($brief)
     {
         $matters = $this->getMatchingMatters($brief);
-        $lawyers =  collect($matters)->groupBy('lawyer_id')->map(function ($matters, $lawyerId) use ($brief) {
+        $lawyers =  collect($matters)->groupBy('lawyer_id')->map(function ($mattersForLawyer, $lawyerId) use ($brief) {
             $lawyer = Lawyer::find($lawyerId);
+            $mattersForLawyer = $mattersForLawyer->sortByDesc('score')->slice(0,self::MAX_MATCH_COUNT)->values();
             $object = [
                 ...$lawyer->toArray(),
-                'score' => $this->lawyerScoreService->getScore($lawyer, $matters),
-                'summary' => $this->llmQueryService->getLawyerSummary($lawyer, $matters, $brief),
-                'matters' => $matters
+                'score' =>  $this->lawyerScoreService->getScore($lawyer, $mattersForLawyer),
+                'summary' => $this->llmQueryService->getLawyerSummary($lawyer, $mattersForLawyer, $brief),
+                'matters' => $mattersForLawyer
             ];
             return $object;
         });
+
         return $lawyers->sortBy(function ($lawyer) {
             return $lawyer['score'];
-        })->reverse()->values();
+        })->reverse()->slice(0, self::MAX_MATCH_COUNT)->values();
     }
 
     private function getMatchingMatters($brief)
@@ -57,7 +60,11 @@ class MatcherService
             $collection = collect($result);
             return $collection->unique(function ($item) {
                 return serialize($item);
-            })->slice(0, self::MAX_MATCH_COUNT)->values()->all();
+            })->filter(function ($item){
+                return $item['score'] > 0.35;
+            })->sortBy(function ($item){
+                return $item['score'];
+            })->reverse()->values()->all();
         } catch (Exception $ex) {
             dd($ex->getMessage());
         }
@@ -88,22 +95,23 @@ class MatcherService
     private function getEmbeddingsFromMatter($matterEmbeddeingsArray, $brief, $matterIds, $type = 'context_embedding')
     {
         $client = new Client();
-        $contextEmbeddings = collect($matterEmbeddeingsArray)->pluck($type)
+        $contextEmbeddings = collect($matterEmbeddeingsArray)->pluck($type,'matter_id')
             ->map(function ($embedding) {
                 return json_decode($embedding);
             })
             ->toArray();
-        $response = $client->post('http://python_local:5000/sematic-search', [
-            'json' => ['case_embeddings' => $contextEmbeddings, 'query' => $brief]
-        ]);
-        $payload = json_decode($response->getBody());
-
+        $llmQueryService = App::make(LlmQueryService::class);
+        $briefEmbeddings = $llmQueryService->generateEmbeddings($brief);
+        $consineSimilaritySerivce = App::make(CosineSimillarityService::class, ['source' => $briefEmbeddings, 'dataset' => $contextEmbeddings]);
+        /**
+         * @var CosineSimillarityService $consineSimilaritySerivce
+         */
+        $similarityMatrix = $consineSimilaritySerivce->run();
         $result = [];
-        foreach ($payload as $item) {
-            $index = $item->index;
-            $matter = Matter::with('lawyer')->find($matterEmbeddeingsArray[$index]->matter_id);
+        foreach ($similarityMatrix as $matterId => $score) {
+            $matter = Matter::with('lawyer')->find($matterId);
             $matterArray =  $matter->toArray();
-            $matterArray['score'] = $item->score;
+            $matterArray['score'] = $score;
             $result[] = $matterArray;
         }
 

@@ -13,9 +13,9 @@ class LlmQueryService
 
     public function __construct()
     {
-       
+
         $this->client = new Client([
-            'base_uri'=>'https://eastus2.api.cognitive.microsoft.com/openai/deployments/overseas-gpt-4o/',
+            'base_uri'=>'https://eastus2.api.cognitive.microsoft.com/openai/deployments/',
             'headers'=>[
                 'Authorization'=>'Bearer '.env('OPENAI_API_KEY'),
                 'Content-Type'=>'application/json',
@@ -43,7 +43,7 @@ class LlmQueryService
             'stream' => false
 
         ];
-        $response = $this->client->post('chat/completions?api-version=2024-02-15-preview', [
+        $response = $this->client->post('overseas-gpt-4o/chat/completions?api-version=2024-02-15-preview', [
             'json' => $payload,
         ]);
         $response = json_decode($response->getBody());
@@ -53,20 +53,22 @@ class LlmQueryService
     public function generateEmbeddings($attributeString)
     {
         $payload = [
-            'model' => 'text-embedding-3-large',
+            'model' => 'text-embedding-3-small',
             'input'=>$attributeString
         ];
         try{
-            $response = $this->client->post('embeddings?api-version=2024-02-15-preview', [
+            $response = $this->client->post('overseas-text-embedding-3-small/embeddings?api-version=2023-05-15', [
                 'json' => $payload,
             ]);
             $response = json_decode($response->getBody());
-            return $response;
+            return $response->data[0]->embedding;
         }catch(Exception $ex){
+            dd($ex->getMessage());
             Log::error($ex->getMessage());
         }
-       
+
     }
+
 
     public function getLawyerSummary($lawyer, $matters,$brief) {
         $matterDescriptions = "Case : ";
@@ -93,7 +95,7 @@ class LlmQueryService
             'stream' => false
 
         ];
-        $response = $this->client->post('chat/completions?api-version=2024-02-15-preview', [
+        $response = $this->client->post('overseas-gpt-4o/chat/completions?api-version=2024-02-15-preview', [
             'json' => $payload,
         ]);
         $response = json_decode($response->getBody());
